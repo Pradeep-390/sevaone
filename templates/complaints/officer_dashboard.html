@@ -1,0 +1,218 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+    Officer Dashboard - SevaOne
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Page Header -->
+
+    <div class="mb-4">
+
+        <h1 class="fw-bold mb-1">
+
+            <i class="bi bi-person-badge-fill text-primary me-2"></i>
+
+            Officer Dashboard
+
+        </h1>
+
+        <p class="text-muted mb-0">
+            View and manage complaints assigned to you.
+        </p>
+
+    </div>
+
+
+    <!-- Assigned Complaints -->
+
+    {% if complaints %}
+
+        <div class="row g-4">
+
+            {% for complaint in complaints %}
+
+                <div class="col-12">
+
+                    <div class="card border-0 shadow-sm">
+
+                        <div class="card-body p-4">
+
+                            <div class="row">
+
+                                <!-- Complaint Information -->
+
+                                <div class="col-lg-8">
+
+                                    <h3 class="fw-bold mb-3">
+                                        {{ complaint.title }}
+                                    </h3>
+
+
+                                    <p class="mb-2">
+
+                                        <strong>
+                                            <i class="bi bi-fingerprint me-1"></i>
+                                            Tracking ID:
+                                        </strong>
+
+                                        <span class="text-muted text-break">
+                                            {{ complaint.tracking_id }}
+                                        </span>
+
+                                    </p>
+
+
+                                    <p class="mb-2">
+
+                                        <strong>
+                                            Category:
+                                        </strong>
+
+                                        {{ complaint.get_category_display }}
+
+                                    </p>
+
+
+                                    <p class="mb-2">
+
+                                        <strong>
+                                            Location:
+                                        </strong>
+
+                                        <i class="bi bi-geo-alt me-1"></i>
+
+                                        {{ complaint.location }}
+
+                                    </p>
+
+
+                                    <p class="mb-2">
+
+                                        <strong>
+                                            Priority:
+                                        </strong>
+
+                                        {{ complaint.get_priority_display }}
+
+                                    </p>
+
+
+                                    <p class="mb-0">
+
+                                        <strong>
+                                            Status:
+                                        </strong>
+
+
+                                        {% if complaint.status == 'PENDING' %}
+
+                                            <span class="badge bg-warning text-dark">
+                                                {{ complaint.get_status_display }}
+                                            </span>
+
+                                        {% elif complaint.status == 'APPROVED' %}
+
+                                            <span class="badge bg-primary">
+                                                {{ complaint.get_status_display }}
+                                            </span>
+
+                                        {% elif complaint.status == 'ASSIGNED' %}
+
+                                            <span class="badge bg-info text-dark">
+                                                {{ complaint.get_status_display }}
+                                            </span>
+
+                                        {% elif complaint.status == 'IN_PROGRESS' %}
+
+                                            <span class="badge bg-warning text-dark">
+                                                {{ complaint.get_status_display }}
+                                            </span>
+
+                                        {% elif complaint.status == 'RESOLVED' %}
+
+                                            <span class="badge bg-success">
+                                                {{ complaint.get_status_display }}
+                                            </span>
+
+                                        {% elif complaint.status == 'REJECTED' %}
+
+                                            <span class="badge bg-danger">
+                                                {{ complaint.get_status_display }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-secondary">
+                                                {{ complaint.get_status_display }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </p>
+
+                                </div>
+
+
+                                <!-- Action -->
+
+                                <div class="col-lg-4 d-flex align-items-center justify-content-lg-end mt-4 mt-lg-0">
+
+                                    <a
+                                        href="{% url 'update_complaint_status' complaint.pk %}"
+                                        class="btn btn-primary"
+                                    >
+
+                                        <i class="bi bi-pencil-square me-1"></i>
+
+                                        Update Status
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <!-- Empty State -->
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <i class="bi bi-inbox display-4 text-muted"></i>
+
+                <h4 class="fw-bold mt-3">
+                    No Assigned Complaints
+                </h4>
+
+                <p class="text-muted mb-0">
+                    No complaints are currently assigned to you.
+                </p>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+

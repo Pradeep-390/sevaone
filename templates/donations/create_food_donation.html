@@ -1,0 +1,441 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4 p-md-5">
+
+
+                    <!-- =====================================================
+                         PAGE HEADER
+                    ===================================================== -->
+
+                    <h2 class="fw-bold mb-2">
+                        🍱 Donate Food
+                    </h2>
+
+                    <p class="text-muted mb-4">
+                        Share excess or surplus food with people,
+                        families, and organizations who need it.
+                    </p>
+
+
+                    <!-- =====================================================
+                         FOOD TYPE INFORMATION
+                    ===================================================== -->
+
+                    <div class="alert alert-light border mb-4">
+
+                        <h6 class="fw-bold mb-3">
+                            💡 What food can you donate?
+                        </h6>
+
+                        <div class="row g-3">
+
+
+                            <!-- COOKED FOOD -->
+
+                            <div class="col-md-6">
+
+                                <div>
+                                    🍚 <strong>Cooked Food</strong>
+                                </div>
+
+                                <small class="text-muted">
+                                    Rice, curry, meals, breakfast,
+                                    lunch, dinner, etc.
+                                </small>
+
+                            </div>
+
+
+                            <!-- PACKAGED FOOD -->
+
+                            <div class="col-md-6">
+
+                                <div>
+                                    📦 <strong>Packaged Food</strong>
+                                </div>
+
+                                <small class="text-muted">
+                                    Biscuits, packed meals, snacks,
+                                    sealed food items, etc.
+                                </small>
+
+                            </div>
+
+
+                            <!-- GROCERIES -->
+
+                            <div class="col-md-6">
+
+                                <div>
+                                    🛒 <strong>Groceries</strong>
+                                </div>
+
+                                <small class="text-muted">
+                                    Rice, dal, vegetables, flour,
+                                    cooking ingredients, etc.
+                                </small>
+
+                            </div>
+
+
+                            <!-- OTHER -->
+
+                            <div class="col-md-6">
+
+                                <div>
+                                    📦 <strong>Other</strong>
+                                </div>
+
+                                <small class="text-muted">
+                                    Other suitable food donations
+                                    that don't fit the categories above.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================================
+                         FORM
+                    ===================================================== -->
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <!-- =================================================
+                             GENERAL FORM ERRORS
+                        ================================================= -->
+
+                        {% if form.non_field_errors %}
+
+                            <div class="alert alert-danger">
+
+                                {{ form.non_field_errors }}
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- =================================================
+                             FOOD NAME
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.food_name.id_for_label }}"
+                            >
+
+                                Food Name
+
+                            </label>
+
+                            {{ form.food_name }}
+
+                            <div class="form-text">
+
+                                Example:
+                                Rice and Curry, Vegetable Biryani,
+                                Food Packets
+
+                            </div>
+
+
+                            {% if form.food_name.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.food_name.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             FOOD TYPE
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.food_type.id_for_label }}"
+                            >
+
+                                Food Type
+
+                            </label>
+
+                            {{ form.food_type }}
+
+                            <div class="form-text">
+
+                                Select the category that best matches
+                                your food donation.
+
+                            </div>
+
+
+                            {% if form.food_type.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.food_type.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             QUANTITY
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.quantity.id_for_label }}"
+                            >
+
+                                Quantity
+
+                            </label>
+
+                            {{ form.quantity }}
+
+                            <div class="form-text">
+
+                                Example:
+                                20 meals, 10 food packets,
+                                5 kg rice
+
+                            </div>
+
+
+                            {% if form.quantity.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.quantity.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             DESCRIPTION
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.description.id_for_label }}"
+                            >
+
+                                Description
+
+                            </label>
+
+                            {{ form.description }}
+
+                            <div class="form-text">
+
+                                Mention useful details such as the food
+                                contents, preparation time, or condition.
+
+                            </div>
+
+
+                            {% if form.description.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.description.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             PICKUP LOCATION
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.pickup_location.id_for_label }}"
+                            >
+
+                                Pickup Location
+
+                            </label>
+
+                            {{ form.pickup_location }}
+
+                            <div class="form-text">
+
+                                Enter the location where the receiver
+                                can collect the food.
+
+                            </div>
+
+
+                            {% if form.pickup_location.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.pickup_location.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             AVAILABLE FROM
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.available_from.id_for_label }}"
+                            >
+
+                                Available From
+
+                            </label>
+
+                            {{ form.available_from }}
+
+                            <div class="form-text">
+
+                                When can the receiver collect the food?
+
+                            </div>
+
+
+                            {% if form.available_from.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.available_from.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             AVAILABLE UNTIL
+                        ================================================= -->
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.available_until.id_for_label }}"
+                            >
+
+                                Last Pickup Time
+
+                            </label>
+
+                            {{ form.available_until }}
+
+                            <div class="form-text">
+
+                                The receiver should collect the food
+                                before this time.
+
+                            </div>
+
+
+                            {% if form.available_until.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.available_until.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             BUTTONS
+                        ================================================= -->
+
+                        <div class="d-flex gap-2 flex-wrap">
+
+                            <button
+                                type="submit"
+                                class="btn btn-success px-4"
+                            >
+
+                                🍱 Submit Food Donation
+
+                            </button>
+
+
+                            <a
+                                href="{% url 'donations_home' %}"
+                                class="btn btn-outline-secondary"
+                            >
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,413 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Blood Requests - SevaOne
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Page Header -->
+    <div class="mb-4">
+
+        <h1 class="fw-bold">
+            Blood Requests
+        </h1>
+
+        <p class="text-muted">
+            Blood requests matching your blood group.
+        </p>
+
+    </div>
+
+
+    <!-- Volunteer Information -->
+    <div class="alert alert-info">
+
+        <strong>
+            Your Blood Group:
+        </strong>
+
+        {{ volunteer.get_blood_group_display }}
+
+        <br>
+
+        <strong>
+            Your Location:
+        </strong>
+
+        {{ volunteer.location }}
+
+    </div>
+
+
+    <!-- URGENCY FILTER -->
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body p-4">
+
+            <div class="row align-items-end g-3">
+
+                <div class="col-md-8">
+
+                    <label
+                        for="urgency"
+                        class="form-label fw-bold"
+                    >
+                        <i class="bi bi-funnel-fill text-danger me-1"></i>
+                        Filter by Urgency
+                    </label>
+
+                    <select
+                        id="urgency"
+                        class="form-select"
+                        onchange="filterUrgency(this.value)"
+                    >
+
+                        <option
+                            value="ALL"
+                            {% if selected_urgency == 'ALL' %}
+                                selected
+                            {% endif %}
+                        >
+                            All Urgency Levels
+                        </option>
+
+                        <option
+                            value="EMERGENCY"
+                            {% if selected_urgency == 'EMERGENCY' %}
+                                selected
+                            {% endif %}
+                        >
+                            Emergency
+                        </option>
+
+                        <option
+                            value="URGENT"
+                            {% if selected_urgency == 'URGENT' %}
+                                selected
+                            {% endif %}
+                        >
+                            Urgent
+                        </option>
+
+                        <option
+                            value="NORMAL"
+                            {% if selected_urgency == 'NORMAL' %}
+                                selected
+                            {% endif %}
+                        >
+                            Normal
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <a
+                        href="{% url 'volunteer_requests' %}"
+                        class="btn btn-outline-secondary w-100"
+                    >
+                        <i class="bi bi-arrow-clockwise me-1"></i>
+                        Clear Filter
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {% if blood_requests %}
+
+        <div class="row g-4">
+
+            {% for blood_request in blood_requests %}
+
+                <div class="col-md-6">
+
+                    <div class="card border-0 shadow-sm h-100">
+
+                        <div class="card-body p-4">
+
+                            <!-- Patient Name -->
+                            <h4 class="fw-bold">
+                                {{ blood_request.patient_name }}
+                            </h4>
+
+
+                            <!-- Blood Group -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    <i class="bi bi-droplet-fill text-danger me-1"></i>
+                                    Blood Group:
+                                </strong>
+
+                                <span class="badge bg-danger">
+                                    {{ blood_request.get_blood_group_display }}
+                                </span>
+
+                            </p>
+
+
+                            <!-- Hospital -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    Hospital:
+                                </strong>
+
+                                {{ blood_request.hospital }}
+
+                            </p>
+
+
+                            <!-- Location -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    Location:
+                                </strong>
+
+                                {{ blood_request.location }}
+
+                            </p>
+
+
+                            <!-- Units -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    Units Required:
+                                </strong>
+
+                                {{ blood_request.units_required }}
+
+                            </p>
+
+
+                            <!-- Urgency -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    Urgency:
+                                </strong>
+
+
+                                {% if blood_request.urgency == 'EMERGENCY' %}
+
+                                    <span class="badge bg-danger">
+                                        Emergency
+                                    </span>
+
+                                {% elif blood_request.urgency == 'URGENT' %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Urgent
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        Normal
+                                    </span>
+
+                                {% endif %}
+
+                            </p>
+
+
+                            <!-- Description -->
+                            {% if blood_request.description %}
+
+                                <p class="text-muted mt-3">
+                                    {{ blood_request.description }}
+                                </p>
+
+                            {% endif %}
+
+
+                            <hr>
+
+
+                            <!-- Contact -->
+                            <p class="mb-3">
+
+                                <strong>
+                                    Contact:
+                                </strong>
+
+                                {{ blood_request.contact_number }}
+
+                            </p>
+
+
+                            <!-- ACCEPTED -->
+                            {% if blood_request.status == 'ACCEPTED' %}
+
+                                <div class="alert alert-success text-center">
+
+                                    <i class="bi bi-check-circle-fill me-1"></i>
+
+                                    <strong>
+                                        You offered to help
+                                    </strong>
+
+                                    <hr>
+
+                                    <p class="mb-1">
+
+                                        <strong>
+                                            Status:
+                                        </strong>
+
+                                        <span class="badge bg-success">
+                                            Accepted
+                                        </span>
+
+                                    </p>
+
+
+                                    <p class="mb-0">
+
+                                        <strong>
+                                            Accepted by:
+                                        </strong>
+
+                                        You
+
+                                    </p>
+
+                                </div>
+
+
+                            <!-- PENDING -->
+                            {% elif blood_request.status == 'PENDING' %}
+
+                                <form
+                                    method="post"
+                                    action="{% url 'accept_blood_request' blood_request.id %}"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger w-100"
+                                    >
+
+                                        <i class="bi bi-heart-fill me-1"></i>
+
+                                        Offer Help
+
+                                    </button>
+
+                                </form>
+
+
+                            {% endif %}
+
+
+                            <!-- COMPLETED -->
+                            {% if blood_request.status == 'COMPLETED' %}
+
+                                <div class="alert alert-primary text-center">
+
+                                    <i class="bi bi-check-circle-fill me-1"></i>
+
+                                    <strong>
+                                        Blood Donation Completed
+                                    </strong>
+
+                                    <hr>
+
+                                    <p class="mb-0">
+                                        Thank you for helping this patient.
+                                    </p>
+
+                                </div>
+
+                            {% endif %}
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <!-- No Requests -->
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center p-5">
+
+                <i class="bi bi-droplet text-danger fs-1"></i>
+
+                <h3 class="fw-bold mt-3">
+                    No Matching Blood Requests
+                </h3>
+
+                <p class="text-muted">
+
+                    There are currently no blood requests
+                    matching your selected filter and blood group.
+
+                </p>
+
+                <a
+                    href="{% url 'volunteer_requests' %}"
+                    class="btn btn-outline-danger"
+                >
+
+                    <i class="bi bi-arrow-clockwise me-1"></i>
+
+                    Clear Filter
+
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- Urgency Filter JavaScript -->
+<script>
+
+function filterUrgency(value) {
+
+    if (value === "ALL") {
+
+        window.location.href = "{% url 'volunteer_requests' %}";
+
+    } else {
+
+        window.location.href =
+            "{% url 'volunteer_requests' %}?urgency=" + value;
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

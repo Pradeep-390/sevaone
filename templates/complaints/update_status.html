@@ -1,0 +1,168 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+    Update Complaint Status - SevaOne
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Page Header -->
+
+    <div class="mb-4">
+
+        <h1 class="fw-bold mb-1">
+            <i class="bi bi-pencil-square text-primary me-2"></i>
+            Update Complaint Status
+        </h1>
+
+        <p class="text-muted mb-0">
+            Update the current status of this complaint.
+        </p>
+
+    </div>
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- Complaint Information -->
+
+                    <h3 class="fw-bold mb-3">
+                        {{ complaint.title }}
+                    </h3>
+
+
+                    <div class="mb-4">
+
+                        <p class="mb-2">
+
+                            <strong>
+                                Tracking ID:
+                            </strong>
+
+                            <span class="text-muted text-break">
+                                {{ complaint.tracking_id }}
+                            </span>
+
+                        </p>
+
+
+                        <p class="mb-0">
+
+                            <strong>
+                                Current Status:
+                            </strong>
+
+                            {% if complaint.status == 'RESOLVED' %}
+
+                                <span class="badge bg-success">
+                                    {{ complaint.get_status_display }}
+                                </span>
+
+                            {% elif complaint.status == 'REJECTED' %}
+
+                                <span class="badge bg-danger">
+                                    {{ complaint.get_status_display }}
+                                </span>
+
+                            {% elif complaint.status == 'IN_PROGRESS' %}
+
+                                <span class="badge bg-warning text-dark">
+                                    {{ complaint.get_status_display }}
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-primary">
+                                    {{ complaint.get_status_display }}
+                                </span>
+
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+
+                    <hr class="mb-4">
+
+
+                    <!-- Status Form -->
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+
+                            <label
+                                for="{{ form.status.id_for_label }}"
+                                class="form-label fw-semibold"
+                            >
+                                Complaint Status
+                            </label>
+
+                            {{ form.status }}
+
+                            {% if form.status.errors %}
+
+                                <div class="text-danger small mt-1">
+                                    {{ form.status.errors }}
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Buttons -->
+
+                        <div class="d-flex gap-2">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+
+                                <i class="bi bi-check-circle me-1"></i>
+
+                                Update Status
+
+                            </button>
+
+
+                            <a
+                                href="{% url 'officer_dashboard' %}"
+                                class="btn btn-outline-secondary"
+                            >
+
+                                <i class="bi bi-arrow-left me-1"></i>
+
+                                Back to Dashboard
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,346 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="text-center mb-5">
+
+        <div class="display-3 mb-3">
+            🤝
+        </div>
+
+        <h1 class="fw-bold">
+            Food & Donations
+        </h1>
+
+        <p class="text-muted fs-5">
+            Share what you have and make a difference in someone's life.
+        </p>
+
+        <p class="text-muted">
+            Donate food, clothes, books, furniture and other useful items
+            to people and organizations who need them.
+        </p>
+
+    </div>
+
+
+    <!-- DONATION OPTIONS -->
+    <div class="row g-4">
+
+
+        <!-- FOOD RESCUE -->
+        <div class="col-lg-6">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="display-3 mb-3">
+                        🍱
+                    </div>
+
+                    <h3 class="fw-bold mb-2">
+                        Food Rescue
+                    </h3>
+
+                    <p class="text-muted mb-4">
+                        Help reduce food waste by sharing surplus food
+                        with people, families and organizations who need it.
+                    </p>
+
+
+                    <!-- WHAT CAN BE DONATED -->
+                    <div class="alert alert-light border mb-4">
+
+                        <h6 class="fw-bold mb-3">
+                            💡 What can you donate?
+                        </h6>
+
+                        <div class="row g-2">
+
+                            <div class="col-6">
+                                🍚 Cooked Food
+                            </div>
+
+                            <div class="col-6">
+                                📦 Packaged Food
+                            </div>
+
+                            <div class="col-6">
+                                🛒 Groceries
+                            </div>
+
+                            <div class="col-6">
+                                🍱 Food Packets
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FOOD BUTTONS -->
+                    <div class="d-grid gap-2">
+
+                        <a
+                            href="{% url 'create_food_donation' %}"
+                            class="btn btn-success"
+                        >
+                            🍱 Donate Food
+                        </a>
+
+                        <a
+                            href="{% url 'available_food_donations' %}"
+                            class="btn btn-outline-success"
+                        >
+                            🔎 Available Food
+                        </a>
+
+                        <a
+                            href="{% url 'my_food_donations' %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            📋 My Food Donations
+                        </a>
+
+                        <a
+                            href="{% url 'my_accepted_food' %}"
+                            class="btn btn-outline-primary"
+                        >
+                            🤝 My Accepted Food
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ITEM DONATIONS -->
+        <div class="col-lg-6">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="display-3 mb-3">
+                        📦
+                    </div>
+
+                    <h3 class="fw-bold mb-2">
+                        Item Donations
+                    </h3>
+
+                    <p class="text-muted mb-4">
+                        Give useful items a second life by donating them
+                        to students, families and people who need them.
+                    </p>
+
+
+                    <!-- WHAT CAN BE DONATED -->
+                    <div class="alert alert-light border mb-4">
+
+                        <h6 class="fw-bold mb-3">
+                            💡 What can you donate?
+                        </h6>
+
+                        <div class="row g-2">
+
+                            <div class="col-6">
+                                👕 Clothes
+                            </div>
+
+                            <div class="col-6">
+                                📚 Books
+                            </div>
+
+                            <div class="col-6">
+                                🎒 School Items
+                            </div>
+
+                            <div class="col-6">
+                                🪑 Furniture
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ITEM BUTTONS -->
+                    <div class="d-grid gap-2">
+
+                        <a
+                            href="{% url 'create_item_donation' %}"
+                            class="btn btn-success"
+                        >
+                            📦 Donate Items
+                        </a>
+
+                        <a
+                            href="{% url 'available_item_donations' %}"
+                            class="btn btn-outline-success"
+                        >
+                            🔎 Available Items
+                        </a>
+
+                        <a
+                            href="{% url 'my_item_donations' %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            📋 My Item Donations
+                        </a>
+
+                        <a
+                            href="{% url 'my_accepted_item_donations' %}"
+                            class="btn btn-outline-primary"
+                        >
+                            🤝 My Accepted Items
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HOW IT WORKS -->
+    <div class="card border-0 shadow-sm mt-5">
+
+        <div class="card-body p-4 p-md-5">
+
+            <div class="text-center mb-4">
+
+                <h3 class="fw-bold">
+                    ❤️ How SevaOne Donations Works
+                </h3>
+
+                <p class="text-muted">
+                    A simple process to give and receive donations.
+                </p>
+
+            </div>
+
+
+            <div class="row g-4 text-center">
+
+
+                <!-- STEP 1 -->
+                <div class="col-md-3">
+
+                    <div class="display-5 mb-2">
+                        📝
+                    </div>
+
+                    <h6 class="fw-bold">
+                        1. Donate
+                    </h6>
+
+                    <p class="text-muted small mb-0">
+                        Add the food or items you want to donate.
+                    </p>
+
+                </div>
+
+
+                <!-- STEP 2 -->
+                <div class="col-md-3">
+
+                    <div class="display-5 mb-2">
+                        🔎
+                    </div>
+
+                    <h6 class="fw-bold">
+                        2. Find
+                    </h6>
+
+                    <p class="text-muted small mb-0">
+                        Other users can find available donations.
+                    </p>
+
+                </div>
+
+
+                <!-- STEP 3 -->
+                <div class="col-md-3">
+
+                    <div class="display-5 mb-2">
+                        🤝
+                    </div>
+
+                    <h6 class="fw-bold">
+                        3. Accept & Collect
+                    </h6>
+
+                    <p class="text-muted small mb-0">
+                        A receiver accepts the donation and collects it.
+                    </p>
+
+                </div>
+
+
+                <!-- STEP 4 -->
+                <div class="col-md-3">
+
+                    <div class="display-5 mb-2">
+                        ❤️
+                    </div>
+
+                    <h6 class="fw-bold">
+                        4. Help Someone
+                    </h6>
+
+                    <p class="text-muted small mb-0">
+                        Your donation reaches someone who needs it.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FINAL MESSAGE -->
+    <div class="text-center mt-5">
+
+        <h4 class="fw-bold">
+            🌱 Every Donation Matters
+        </h4>
+
+        <p class="text-muted">
+            Your food, clothes, books, school items and furniture
+            can make a real difference in someone's life.
+        </p>
+
+    </div>
+
+
+    <!-- HOME BUTTON -->
+    <div class="text-center mt-4">
+
+        <a
+            href="{% url 'home' %}"
+            class="btn btn-outline-secondary px-4"
+        >
+            🏠 Home
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+            SevaOne
+        {% endblock %}
+    </title>
+
+    <!-- Bootstrap CSS -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        /* =====================================================
+           MAIN COLORS
+        ===================================================== */
+
+        body {
+            background-color: #f4fbf7;
+        }
+
+        .navbar {
+            background-color: #087f5b !important;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #ffffff !important;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #e8fff5 !important;
+        }
+
+        .nav-link:hover {
+            color: #ffffff !important;
+        }
+
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .card {
+            border-radius: 15px;
+        }
+
+        /* =====================================================
+           BUTTON COLORS
+        ===================================================== */
+
+        .btn-success {
+            background-color: #087f5b;
+            border-color: #087f5b;
+        }
+
+        .btn-success:hover {
+            background-color: #066b4c;
+            border-color: #066b4c;
+        }
+
+        .btn-outline-success {
+            color: #087f5b;
+            border-color: #087f5b;
+        }
+
+        .btn-outline-success:hover {
+            background-color: #087f5b;
+            border-color: #087f5b;
+            color: #ffffff;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        footer {
+            background-color: #075e45 !important;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+
+    <div class="container">
+
+        <!-- BRAND -->
+
+        <a
+            class="navbar-brand"
+            href="{% url 'home' %}"
+        >
+
+            🤝 SevaOne
+
+        </a>
+
+
+        <!-- MOBILE BUTTON -->
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+        >
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <!-- NAVIGATION -->
+
+        <div
+            class="collapse navbar-collapse"
+            id="mainNavbar"
+        >
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                <!-- HOME -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'home' %}"
+                    >
+
+                        <i class="bi bi-house-fill me-1"></i>
+
+                        Home
+
+                    </a>
+
+                </li>
+
+
+                <!-- ABOUT -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'about' %}"
+                    >
+
+                        <i class="bi bi-info-circle-fill me-1"></i>
+
+                        About
+
+                    </a>
+
+                </li>
+
+
+                <!-- CIVIC COMPLAINTS -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'complaints_home' %}"
+                    >
+
+                        <i class="bi bi-building-fill me-1"></i>
+
+                        Civic Complaints
+
+                    </a>
+
+                </li>
+
+
+                <!-- BLOOD HELP -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'blood' %}"
+                    >
+
+                        <i class="bi bi-droplet-fill me-1"></i>
+
+                        Blood Help
+
+                    </a>
+
+                </li>
+
+
+                <!-- FOOD & DONATIONS -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'donations_home' %}"
+                    >
+
+                        <i class="bi bi-heart-fill me-1"></i>
+
+                        Food & Donations
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+
+            <!-- RIGHT SIDE -->
+
+            <ul class="navbar-nav">
+
+
+                {% if user.is_authenticated %}
+
+
+                    <!-- USER -->
+
+                    <li class="nav-item">
+
+                        <span class="nav-link">
+
+                            <i class="bi bi-person-circle me-1"></i>
+
+                            {{ user.username }}
+
+                        </span>
+
+                    </li>
+
+
+                    <!-- LOGOUT -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'logout' %}"
+                        >
+
+                            <i class="bi bi-box-arrow-right me-1"></i>
+
+                            Logout
+
+                        </a>
+
+                    </li>
+
+
+                {% else %}
+
+
+                    <!-- LOGIN -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'login' %}"
+                        >
+
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+
+                            Login
+
+                        </a>
+
+                    </li>
+
+
+                    <!-- REGISTER -->
+
+                    <li class="nav-item">
+
+                        <a
+                            class="nav-link"
+                            href="{% url 'register' %}"
+                        >
+
+                            <i class="bi bi-person-plus-fill me-1"></i>
+
+                            Register
+
+                        </a>
+
+                    </li>
+
+
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main>
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="text-white text-center py-4 mt-5">
+
+    <div class="container">
+
+        <p class="mb-1">
+
+            ❤️ Together We Can Help
+
+        </p>
+
+        <small class="text-white-50">
+
+            © 2026 SevaOne. All rights reserved.
+
+        </small>
+
+    </div>
+
+</footer>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+</body>
+
+</html>

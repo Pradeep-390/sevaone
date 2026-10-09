@@ -1,0 +1,455 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- PAGE HEADER -->
+    <div class="d-flex justify-content-between align-items-center
+                mb-5 flex-wrap gap-3">
+
+        <div>
+
+            <div class="display-6 mb-2">
+                🍱
+            </div>
+
+            <h2 class="fw-bold mb-1">
+                My Food Donations
+            </h2>
+
+            <p class="text-muted mb-0">
+                Track the food donations you have submitted
+                and see their current status.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'create_food_donation' %}"
+            class="btn btn-success px-4"
+        >
+            🍱 Donate Food
+        </a>
+
+    </div>
+
+
+    <!-- STATUS FLOW -->
+
+    {% if donations %}
+
+        <div class="card border-0 shadow-sm mb-4">
+
+            <div class="card-body p-4">
+
+                <h6 class="fw-bold mb-3">
+                    📊 Donation Status Flow
+                </h6>
+
+                <div class="d-flex flex-wrap align-items-center gap-2">
+
+                    <span class="badge bg-warning text-dark">
+                        🟡 Pending
+                    </span>
+
+                    <span class="text-muted">
+                        →
+                    </span>
+
+                    <span class="badge bg-primary">
+                        🔵 Accepted
+                    </span>
+
+                    <span class="text-muted">
+                        →
+                    </span>
+
+                    <span class="badge bg-info text-dark">
+                        🔵 Collected
+                    </span>
+
+                    <span class="text-muted">
+                        →
+                    </span>
+
+                    <span class="badge bg-success">
+                        🟢 Completed
+                    </span>
+
+                </div>
+
+                <p class="text-muted small mt-3 mb-0">
+                    You can confirm completion after the receiver
+                    collects your food donation.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- DONATIONS -->
+
+        <div class="row g-4">
+
+            {% for donation in donations %}
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="card h-100 shadow-sm border-0">
+
+                        <div class="card-body p-4">
+
+
+                            <!-- STATUS -->
+
+                            <div class="d-flex justify-content-between
+                                        align-items-center mb-3">
+
+                                <span class="small text-muted">
+                                    Food Donation
+                                </span>
+
+
+                                {% if donation.status == 'PENDING' %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        🟡 PENDING
+                                    </span>
+
+                                {% elif donation.status == 'ACCEPTED' %}
+
+                                    <span class="badge bg-primary">
+                                        🔵 ACCEPTED
+                                    </span>
+
+                                {% elif donation.status == 'COLLECTED' %}
+
+                                    <span class="badge bg-info text-dark">
+                                        🔵 COLLECTED
+                                    </span>
+
+                                {% elif donation.status == 'COMPLETED' %}
+
+                                    <span class="badge bg-success">
+                                        🟢 COMPLETED
+                                    </span>
+
+                                {% elif donation.status == 'CANCELLED' %}
+
+                                    <span class="badge bg-danger">
+                                        🔴 CANCELLED
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- FOOD NAME -->
+
+                            <h5 class="fw-bold mb-1">
+                                🍱 {{ donation.food_name }}
+                            </h5>
+
+
+                            <!-- FOOD TYPE -->
+
+                            <p class="text-muted mb-4">
+                                {{ donation.get_food_type_display }}
+                            </p>
+
+
+                            <hr>
+
+
+                            <!-- QUANTITY -->
+
+                            <div class="mb-3">
+
+                                <div class="fw-semibold">
+                                    📦 Quantity
+                                </div>
+
+                                <div class="text-muted">
+                                    {{ donation.quantity }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- PICKUP LOCATION -->
+
+                            <div class="mb-3">
+
+                                <div class="fw-semibold">
+                                    📍 Pickup Location
+                                </div>
+
+                                <div class="text-muted">
+                                    {{ donation.pickup_location }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- AVAILABLE TIME -->
+
+                            <div class="mb-3">
+
+                                <div class="fw-semibold">
+                                    🕐 Available From
+                                </div>
+
+                                <div class="text-muted">
+                                    {{ donation.available_from|date:"d M Y, h:i A" }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- LAST PICKUP -->
+
+                            <div class="mb-3">
+
+                                <div class="fw-semibold">
+                                    ⏰ Last Pickup
+                                </div>
+
+                                <div class="text-muted">
+                                    {{ donation.available_until|date:"d M Y, h:i A" }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- ACCEPTED BY -->
+
+                            {% if donation.accepted_by %}
+
+                                <div class="mb-3">
+
+                                    <div class="fw-semibold">
+                                        🤝 Accepted By
+                                    </div>
+
+                                    <div class="text-muted">
+                                        {{ donation.accepted_by.username }}
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- DESCRIPTION -->
+
+                            {% if donation.description %}
+
+                                <div class="mb-3">
+
+                                    <div class="fw-semibold">
+                                        📝 Details
+                                    </div>
+
+                                    <div class="text-muted mt-1">
+                                        {{ donation.description }}
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- PENDING -->
+
+                            {% if donation.status == 'PENDING' %}
+
+                                <div class="alert alert-warning mt-4 mb-0">
+
+                                    <strong>
+                                        ⏳ Waiting for receiver
+                                    </strong>
+
+                                    <div class="small mt-1">
+                                        Your donation is available and
+                                        waiting for someone to accept it.
+                                    </div>
+
+                                </div>
+
+
+                            <!-- ACCEPTED -->
+
+                            {% elif donation.status == 'ACCEPTED' %}
+
+                                <div class="alert alert-primary mt-4 mb-0">
+
+                                    <strong>
+                                        🤝 Donation Accepted
+                                    </strong>
+
+                                    <div class="small mt-1">
+                                        A receiver has accepted this
+                                        donation and can collect it.
+                                    </div>
+
+                                </div>
+
+
+                            <!-- COLLECTED -->
+
+                            {% elif donation.status == 'COLLECTED' %}
+
+                                <div class="alert alert-info mt-4">
+
+                                    <strong>
+                                        📦 Food Collected
+                                    </strong>
+
+                                    <div class="small mt-1">
+                                        The receiver has collected the food.
+                                        Please confirm the donation is
+                                        successfully completed.
+                                    </div>
+
+                                </div>
+
+
+                                <!-- COMPLETE BUTTON -->
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'complete_food_donation' donation.id %}"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-success w-100"
+                                        onclick="return confirm('Confirm that this food donation was successfully completed?')"
+                                    >
+                                        ✅ Confirm Completed
+                                    </button>
+
+                                </form>
+
+
+                            <!-- COMPLETED -->
+
+                            {% elif donation.status == 'COMPLETED' %}
+
+                                <div class="alert alert-success mt-4 mb-0">
+
+                                    <strong>
+                                        ❤️ Donation Completed
+                                    </strong>
+
+                                    <div class="small mt-1">
+                                        This donation has successfully
+                                        completed its journey.
+                                    </div>
+
+                                </div>
+
+
+                            <!-- CANCELLED -->
+
+                            {% elif donation.status == 'CANCELLED' %}
+
+                                <div class="alert alert-danger mt-4 mb-0">
+
+                                    <strong>
+                                        🔴 Donation Cancelled
+                                    </strong>
+
+                                    <div class="small mt-1">
+                                        This food donation is no longer
+                                        available.
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- SUBMITTED DATE -->
+
+                        <div class="card-footer bg-white border-0
+                                    px-4 pb-4">
+
+                            <small class="text-muted">
+
+                                📅 Submitted:
+                                {{ donation.created_at|date:"d M Y, h:i A" }}
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- EMPTY STATE -->
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <div class="display-3 mb-3">
+                    🍱
+                </div>
+
+                <h4 class="fw-bold">
+                    No Food Donations Yet
+                </h4>
+
+                <p class="text-muted mb-4">
+                    You haven't submitted any food donations yet.
+                    Start by sharing surplus food with someone in need.
+                </p>
+
+                <a
+                    href="{% url 'create_food_donation' %}"
+                    class="btn btn-success px-4"
+                >
+                    🍱 Donate Food
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- BACK BUTTON -->
+
+    <div class="text-center mt-5">
+
+        <a
+            href="{% url 'donations_home' %}"
+            class="btn btn-outline-secondary px-4"
+        >
+            ← Back to Donations
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

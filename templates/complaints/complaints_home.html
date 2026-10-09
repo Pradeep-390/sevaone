@@ -1,0 +1,76 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+    Civic Complaints - SevaOne
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold">
+            <i class="bi bi-megaphone-fill text-primary me-2"></i>
+            Civic Complaints
+        </h1>
+
+        <p class="text-muted">
+            Report public problems such as garbage,
+            potholes, streetlights and water leakage.
+        </p>
+
+    </div>
+
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8 col-lg-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <div class="d-grid gap-3">
+
+                        <a
+                            href="{% url 'create_complaint' %}"
+                            class="btn btn-primary btn-lg"
+                        >
+                            <i class="bi bi-plus-circle me-2"></i>
+                            Submit a New Complaint
+                        </a>
+
+
+                        <a
+                            href="{% url 'complaint_list' %}"
+                            class="btn btn-outline-primary btn-lg"
+                        >
+                            <i class="bi bi-list-check me-2"></i>
+                            My Complaints
+                        </a>
+
+
+                        <a
+                            href="{% url 'home' %}"
+                            class="btn btn-outline-secondary"
+                        >
+                            <i class="bi bi-house-door me-2"></i>
+                            Home
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

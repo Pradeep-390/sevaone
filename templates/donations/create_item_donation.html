@@ -1,0 +1,442 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- =====================================================
+                         PAGE HEADER
+                    ===================================================== -->
+
+                    <h2 class="fw-bold mb-2">
+                        📦 Donate Items
+                    </h2>
+
+                    <p class="text-muted mb-4">
+                        Donate useful items to people, families, students,
+                        and organizations who need them.
+                    </p>
+
+
+                    <!-- =====================================================
+                         ITEM CATEGORY INFORMATION
+                    ===================================================== -->
+
+                    <div class="alert alert-light border mb-4">
+
+                        <h6 class="fw-bold mb-3">
+                            💡 What can you donate?
+                        </h6>
+
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+
+                                <div>
+                                    👕 <strong>Clothes</strong>
+                                </div>
+
+                                <small class="text-muted">
+                                    Shirts, pants, dresses, blankets, etc.
+                                </small>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div>
+                                    📚 <strong>Books</strong>
+                                </div>
+
+                                <small class="text-muted">
+                                    Textbooks, story books, novels,
+                                    reference books, etc.
+                                </small>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div>
+                                    🎒 <strong>School Items</strong>
+                                </div>
+
+                                <small class="text-muted">
+                                    School bags, notebooks, pens, pencils,
+                                    geometry boxes, etc.
+                                </small>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div>
+                                    🪑 <strong>Furniture</strong>
+                                </div>
+
+                                <small class="text-muted">
+                                    Chairs, tables, desks, cupboards, etc.
+                                </small>
+
+                            </div>
+
+
+                            <div class="col-md-6">
+
+                                <div>
+                                    📦 <strong>Other</strong>
+                                </div>
+
+                                <small class="text-muted">
+                                    Other useful items that don't fit
+                                    the categories above.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================================
+                         FORM
+                    ===================================================== -->
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <!-- =================================================
+                             FORM GENERAL ERRORS
+                        ================================================= -->
+
+                        {% if form.non_field_errors %}
+
+                            <div class="alert alert-danger">
+
+                                {{ form.non_field_errors }}
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- =================================================
+                             ITEM NAME
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.item_name.id_for_label }}"
+                            >
+
+                                Item Name
+
+                            </label>
+
+                            {{ form.item_name }}
+
+                            <div class="form-text">
+
+                                Example:
+                                School Books, Winter Clothes,
+                                Study Table
+
+                            </div>
+
+
+                            {% if form.item_name.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.item_name.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             ITEM TYPE
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.item_type.id_for_label }}"
+                            >
+
+                                Item Type
+
+                            </label>
+
+                            {{ form.item_type }}
+
+                            <div class="form-text">
+
+                                Select the category that best matches
+                                your donation.
+
+                            </div>
+
+
+                            {% if form.item_type.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.item_type.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             QUANTITY
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.quantity.id_for_label }}"
+                            >
+
+                                Quantity
+
+                            </label>
+
+                            {{ form.quantity }}
+
+                            <div class="form-text">
+
+                                Example:
+                                10 books, 5 shirts, 2 tables
+
+                            </div>
+
+
+                            {% if form.quantity.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.quantity.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             DESCRIPTION
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.description.id_for_label }}"
+                            >
+
+                                Description
+
+                            </label>
+
+                            {{ form.description }}
+
+                            <div class="form-text">
+
+                                Mention useful details such as condition,
+                                size, age, or any other important information.
+
+                            </div>
+
+
+                            {% if form.description.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.description.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             PICKUP LOCATION
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.pickup_location.id_for_label }}"
+                            >
+
+                                Pickup Location
+
+                            </label>
+
+                            {{ form.pickup_location }}
+
+                            <div class="form-text">
+
+                                Enter the location where the receiver
+                                can collect the donation.
+
+                            </div>
+
+
+                            {% if form.pickup_location.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.pickup_location.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             AVAILABLE FROM
+                        ================================================= -->
+
+                        <div class="mb-3">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.available_from.id_for_label }}"
+                            >
+
+                                Available From
+
+                            </label>
+
+                            {{ form.available_from }}
+
+                            <div class="form-text">
+
+                                When can the receiver collect the items?
+
+                            </div>
+
+
+                            {% if form.available_from.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.available_from.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             AVAILABLE UNTIL
+                        ================================================= -->
+
+                        <div class="mb-4">
+
+                            <label
+                                class="form-label fw-semibold"
+                                for="{{ form.available_until.id_for_label }}"
+                            >
+
+                                Last Pickup Time
+
+                            </label>
+
+                            {{ form.available_until }}
+
+                            <div class="form-text">
+
+                                The receiver should collect the items
+                                before this time.
+
+                            </div>
+
+
+                            {% if form.available_until.errors %}
+
+                                <div class="text-danger small mt-1">
+
+                                    {{ form.available_until.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =================================================
+                             BUTTONS
+                        ================================================= -->
+
+                        <div class="d-flex gap-2 flex-wrap">
+
+                            <button
+                                type="submit"
+                                class="btn btn-success px-4"
+                            >
+
+                                📦 Submit Item Donation
+
+                            </button>
+
+
+                            <a
+                                href="{% url 'donations_home' %}"
+                                class="btn btn-outline-secondary"
+                            >
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Blood Help - SevaOne
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Page Header -->
+    <div class="text-center mb-5">
+
+        <i class="bi bi-heart-pulse-fill text-danger fs-1"></i>
+
+        <h1 class="fw-bold mt-3">
+            Blood Help
+        </h1>
+
+        <p class="text-muted">
+            Request blood or become a volunteer and help save lives.
+        </p>
+
+    </div>
+
+
+    <!-- Main Options -->
+    <div class="row g-4 justify-content-center">
+
+
+        <!-- Request Blood -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <i class="bi bi-droplet-fill text-danger fs-1"></i>
+
+                    <h4 class="fw-bold mt-3">
+                        Request Blood
+                    </h4>
+
+                    <p class="text-muted">
+                        Need blood for yourself or someone who needs urgent help?
+                        Create a blood request.
+                    </p>
+
+                    <a
+                        href="{% url 'create_blood_request' %}"
+                        class="btn btn-danger"
+                    >
+                        <i class="bi bi-plus-circle me-1"></i>
+                        Request Blood
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- My Blood Requests -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <i class="bi bi-clipboard-heart text-primary fs-1"></i>
+
+                    <h4 class="fw-bold mt-3">
+                        My Blood Requests
+                    </h4>
+
+                    <p class="text-muted">
+                        Track your blood requests and see volunteer
+                        responses and completion status.
+                    </p>
+
+                    <a
+                        href="{% url 'my_blood_requests' %}"
+                        class="btn btn-outline-primary"
+                    >
+                        <i class="bi bi-list-check me-1"></i>
+                        My Requests
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Become Volunteer -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <i class="bi bi-person-heart text-danger fs-1"></i>
+
+                    <h4 class="fw-bold mt-3">
+                        Blood Volunteer
+                    </h4>
+
+                    <p class="text-muted">
+                        Register as a blood volunteer and help people
+                        who need your blood group.
+                    </p>
+
+                    <a
+                        href="{% url 'become_blood_volunteer' %}"
+                        class="btn btn-danger"
+                    >
+                        <i class="bi bi-heart-fill me-1"></i>
+                        Volunteer Profile
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Volunteer Dashboard -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <i class="bi bi-speedometer2 text-success fs-1"></i>
+
+                    <h4 class="fw-bold mt-3">
+                        Volunteer Dashboard
+                    </h4>
+
+                    <p class="text-muted">
+                        View your volunteer status, blood requests,
+                        accepted requests and completed donations.
+                    </p>
+
+                    <a
+                        href="{% url 'volunteer_dashboard' %}"
+                        class="btn btn-outline-success"
+                    >
+                        <i class="bi bi-speedometer2 me-1"></i>
+                        Open Dashboard
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Blood Requests -->
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <i class="bi bi-list-ul text-danger fs-1"></i>
+
+                    <h4 class="fw-bold mt-3">
+                        Blood Requests
+                    </h4>
+
+                    <p class="text-muted">
+                        View blood requests matching your registered
+                        blood group.
+                    </p>
+
+                    <a
+                        href="{% url 'volunteer_requests' %}"
+                        class="btn btn-outline-danger"
+                    >
+                        <i class="bi bi-search me-1"></i>
+                        View Requests
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

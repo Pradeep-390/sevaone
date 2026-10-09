@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register - SevaOne</title>
+</head>
+
+<body>
+
+    <h1>SevaOne Registration</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ user_form.as_p }}
+
+        {{ profile_form.as_p }}
+
+        <button type="submit">
+            Register
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/login/">
+        Already have an account? Login
+    </a>
+
+</body>
+
+</html>

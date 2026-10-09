@@ -1,0 +1,404 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- =========================================================
+         PAGE HEADER
+    ========================================================= -->
+
+    <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+                📦 My Accepted Items
+            </h2>
+
+            <p class="text-muted mb-0">
+                Track the items you have accepted and collected.
+            </p>
+
+        </div>
+
+        <a
+            href="{% url 'available_item_donations' %}"
+            class="btn btn-success px-4"
+        >
+            🔎 Find Items
+        </a>
+
+    </div>
+
+
+    <!-- =========================================================
+         STATUS FLOW
+    ========================================================= -->
+
+    <div class="alert alert-light border shadow-sm mb-4">
+
+        <div class="d-flex align-items-start">
+
+            <div class="fs-3 me-3">
+                🔄
+            </div>
+
+            <div>
+
+                <h6 class="fw-bold mb-2">
+                    Accepted Item Status
+                </h6>
+
+                <div class="text-muted small">
+
+                    🔵 Accepted
+                    →
+                    📦 Collected
+                    →
+                    🟢 Completed
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         ACCEPTED ITEMS
+    ========================================================= -->
+
+    {% if donations %}
+
+        <div class="row g-4">
+
+            {% for donation in donations %}
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="card h-100 shadow-sm border-0">
+
+                        <div class="card-body p-4">
+
+                            <!-- =================================================
+                                 STATUS
+                            ================================================= -->
+
+                            <div class="mb-3">
+
+                                {% if donation.status == 'ACCEPTED' %}
+
+                                    <span class="badge bg-primary">
+                                        🔵 Accepted
+                                    </span>
+
+                                {% elif donation.status == 'COLLECTED' %}
+
+                                    <span class="badge bg-info text-dark">
+                                        📦 Collected
+                                    </span>
+
+                                {% elif donation.status == 'COMPLETED' %}
+
+                                    <span class="badge bg-success">
+                                        🟢 Completed
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 ITEM NAME
+                            ================================================= -->
+
+                            <h5 class="fw-bold mb-1">
+
+                                📦 {{ donation.item_name }}
+
+                            </h5>
+
+
+                            <!-- ITEM TYPE -->
+
+                            <p class="text-muted mb-4">
+
+                                {{ donation.get_item_type_display }}
+
+                            </p>
+
+
+                            <hr>
+
+
+                            <!-- =================================================
+                                 QUANTITY
+                            ================================================= -->
+
+                            <div class="mb-3">
+
+                                <div class="fw-semibold">
+                                    📦 Quantity
+                                </div>
+
+                                <div class="text-muted">
+                                    {{ donation.quantity }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 PICKUP LOCATION
+                            ================================================= -->
+
+                            <div class="mb-3">
+
+                                <div class="fw-semibold">
+                                    📍 Pickup Location
+                                </div>
+
+                                <div class="text-muted">
+                                    {{ donation.pickup_location }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 AVAILABLE FROM
+                            ================================================= -->
+
+                            <div class="mb-3">
+
+                                <div class="fw-semibold">
+                                    🕐 Available From
+                                </div>
+
+                                <div class="text-muted">
+                                    {{ donation.available_from|date:"d M Y, h:i A" }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 LAST PICKUP
+                            ================================================= -->
+
+                            <div class="mb-3">
+
+                                <div class="fw-semibold">
+                                    ⏰ Last Pickup
+                                </div>
+
+                                <div class="text-muted">
+                                    {{ donation.available_until|date:"d M Y, h:i A" }}
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 DESCRIPTION
+                            ================================================= -->
+
+                            {% if donation.description %}
+
+                                <div class="mb-3">
+
+                                    <div class="fw-semibold">
+                                        📝 Details
+                                    </div>
+
+                                    <div class="text-muted mt-1">
+                                        {{ donation.description }}
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- =================================================
+                                 ACCEPTED
+                            ================================================= -->
+
+                            {% if donation.status == 'ACCEPTED' %}
+
+                                <div class="alert alert-primary mb-3">
+
+                                    <div class="fw-semibold">
+                                        🤝 Item Accepted
+                                    </div>
+
+                                    <div class="small mt-1">
+                                        Please collect the item from
+                                        the pickup location.
+                                    </div>
+
+                                </div>
+
+
+                                <!-- COLLECT BUTTON -->
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'collect_item_donation' donation.id %}"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-info w-100"
+                                        onclick="return confirm('Confirm that you have collected this item?')"
+                                    >
+                                        📦 Mark as Collected
+                                    </button>
+
+                                </form>
+
+
+                            <!-- =================================================
+                                 COLLECTED
+                            ================================================= -->
+
+                            {% elif donation.status == 'COLLECTED' %}
+
+                                <div class="alert alert-info mb-0">
+
+                                    <div class="fw-semibold">
+                                        📦 Item Collected
+                                    </div>
+
+                                    <div class="small mt-1">
+                                        You have successfully collected
+                                        this donated item.
+                                    </div>
+
+                                </div>
+
+
+                            <!-- =================================================
+                                 COMPLETED
+                            ================================================= -->
+
+                            {% elif donation.status == 'COMPLETED' %}
+
+                                <div class="alert alert-success mb-0">
+
+                                    <div class="fw-semibold">
+                                        ✅ Donation Completed
+                                    </div>
+
+                                    <div class="small mt-1">
+                                        This item donation was successfully
+                                        completed.
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- =====================================================
+                             UPDATED DATE
+                        ===================================================== -->
+
+                        <div class="card-footer bg-white border-0 px-4 pb-4">
+
+                            <small class="text-muted">
+
+                                📅 Updated:
+                                {{ donation.updated_at|date:"d M Y, h:i A" }}
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    <!-- =========================================================
+         NO ACCEPTED ITEMS
+    ========================================================= -->
+
+    {% else %}
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center py-5">
+
+                <div class="display-3 mb-3">
+                    📦
+                </div>
+
+                <h4 class="fw-bold">
+                    No Accepted Items
+                </h4>
+
+                <p class="text-muted mb-4">
+                    You have not accepted any item donations yet.
+                    Find available items and help someone in need.
+                </p>
+
+                <div class="d-flex justify-content-center gap-2 flex-wrap">
+
+                    <a
+                        href="{% url 'donations_home' %}"
+                        class="btn btn-outline-secondary"
+                    >
+                        ← Back to Donations
+                    </a>
+
+                    <a
+                        href="{% url 'available_item_donations' %}"
+                        class="btn btn-success"
+                    >
+                        🔎 Find Available Items
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =========================================================
+         BACK BUTTON
+    ========================================================= -->
+
+    {% if donations %}
+
+        <div class="text-center mt-5">
+
+            <a
+                href="{% url 'donations_home' %}"
+                class="btn btn-outline-secondary px-4"
+            >
+                ← Back to Donations
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

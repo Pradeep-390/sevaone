@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Volunteer Profile - SevaOne
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-5">
+
+                    <div class="text-center mb-4">
+
+                        <i class="bi bi-person-heart text-danger fs-1"></i>
+
+                        <h2 class="fw-bold mt-3">
+                            Edit Volunteer Profile
+                        </h2>
+
+                        <p class="text-muted">
+                            Update your blood volunteer information.
+                        </p>
+
+                    </div>
+
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+
+                        <!-- Blood Group -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Blood Group
+                            </label>
+
+                            {{ form.blood_group }}
+
+                        </div>
+
+
+                        <!-- Location -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Location
+                            </label>
+
+                            {{ form.location }}
+
+                        </div>
+
+
+                        <!-- Contact Number -->
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Contact Number
+                            </label>
+
+                            {{ form.contact_number }}
+
+                        </div>
+
+
+                        <!-- Availability -->
+                        <div class="mb-4">
+
+                            <div class="form-check">
+
+                                {{ form.is_available }}
+
+                                <label
+                                    class="form-check-label fw-semibold"
+                                    for="{{ form.is_available.id_for_label }}"
+                                >
+                                    I am available to donate blood
+                                </label>
+
+                            </div>
+
+                            <small class="text-muted">
+                                Uncheck this option when you are not
+                                currently available to help.
+                            </small>
+
+                        </div>
+
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-2">
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger"
+                            >
+
+                                <i class="bi bi-check-circle me-1"></i>
+
+                                Save Changes
+
+                            </button>
+
+
+                            <a
+                                href="{% url 'blood' %}"
+                                class="btn btn-outline-secondary"
+                            >
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

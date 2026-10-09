@@ -1,0 +1,398 @@
+{% extends "base.html" %}
+
+{% block title %}
+    My Blood Requests - SevaOne
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="fw-bold mb-1">
+                My Blood Requests
+            </h1>
+
+            <p class="text-muted mb-0">
+                Track the blood requests you have submitted.
+            </p>
+        </div>
+
+        <a
+            href="{% url 'create_blood_request' %}"
+            class="btn btn-danger"
+        >
+            <i class="bi bi-plus-circle me-1"></i>
+            New Request
+        </a>
+
+    </div>
+
+
+    {% if blood_requests %}
+
+        <div class="row g-4">
+
+            {% for request in blood_requests %}
+
+                <div class="col-md-6">
+
+                    <div class="card border-0 shadow-sm h-100">
+
+                        <div class="card-body p-4">
+
+                            <!-- Patient Name -->
+                            <h4 class="fw-bold">
+                                {{ request.patient_name }}
+                            </h4>
+
+
+                            <!-- Blood Group -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    Blood Group:
+                                </strong>
+
+                                {{ request.get_blood_group_display }}
+
+                            </p>
+
+
+                            <!-- Hospital -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    Hospital:
+                                </strong>
+
+                                {{ request.hospital }}
+
+                            </p>
+
+
+                            <!-- Location -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    Location:
+                                </strong>
+
+                                {{ request.location }}
+
+                            </p>
+
+
+                            <!-- Units -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    Units:
+                                </strong>
+
+                                {{ request.units_required }}
+
+                            </p>
+
+
+                            <!-- Urgency -->
+                            <p class="mb-2">
+
+                                <strong>
+                                    Urgency:
+                                </strong>
+
+                                {{ request.get_urgency_display }}
+
+                            </p>
+
+
+                            <!-- Status -->
+                            <p class="mb-3">
+
+                                <strong>
+                                    Status:
+                                </strong>
+
+
+                                {% if request.status == 'PENDING' %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pending
+                                    </span>
+
+
+                                {% elif request.status == 'ACCEPTED' %}
+
+                                    <span class="badge bg-success">
+                                        Accepted
+                                    </span>
+
+
+                                {% elif request.status == 'COMPLETED' %}
+
+                                    <span class="badge bg-primary">
+                                        Completed
+                                    </span>
+
+
+                                {% elif request.status == 'CANCELLED' %}
+
+                                    <span class="badge bg-secondary">
+                                        Cancelled
+                                    </span>
+
+                                {% endif %}
+
+                            </p>
+
+
+                            <!-- CANCEL PENDING REQUEST -->
+                            {% if request.status == 'PENDING' %}
+
+                                <form
+                                    method="post"
+                                    action="{% url 'cancel_blood_request' request.id %}"
+                                    class="mb-3"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-outline-danger w-100"
+                                        onclick="return confirm('Are you sure you want to cancel this blood request?');"
+                                    >
+
+                                        <i class="bi bi-x-circle me-1"></i>
+
+                                        Cancel Request
+
+                                    </button>
+
+                                </form>
+
+                            {% endif %}
+
+
+                            <!-- ACCEPTED VOLUNTEER INFORMATION -->
+                            {% if request.status == 'ACCEPTED' and request.accepted_by %}
+
+                                <div class="alert alert-success">
+
+                                    <h5 class="fw-bold">
+
+                                        <i class="bi bi-heart-fill me-1"></i>
+
+                                        Volunteer Accepted Your Request
+
+                                    </h5>
+
+
+                                    <hr>
+
+
+                                    <!-- Volunteer Name -->
+                                    <p class="mb-2">
+
+                                        <strong>
+                                            Volunteer:
+                                        </strong>
+
+                                        {% if request.accepted_by.user.get_full_name %}
+
+                                            {{ request.accepted_by.user.get_full_name }}
+
+                                        {% else %}
+
+                                            {{ request.accepted_by.user.username }}
+
+                                        {% endif %}
+
+                                    </p>
+
+
+                                    <!-- Volunteer Blood Group -->
+                                    <p class="mb-2">
+
+                                        <strong>
+                                            Blood Group:
+                                        </strong>
+
+                                        {{ request.accepted_by.get_blood_group_display }}
+
+                                    </p>
+
+
+                                    <!-- Volunteer Location -->
+                                    <p class="mb-2">
+
+                                        <strong>
+                                            Location:
+                                        </strong>
+
+                                        {{ request.accepted_by.location }}
+
+                                    </p>
+
+
+                                    <!-- Volunteer Contact -->
+                                    <p class="mb-3">
+
+                                        <strong>
+                                            Contact:
+                                        </strong>
+
+                                        {{ request.accepted_by.contact_number }}
+
+                                    </p>
+
+
+                                    <!-- COMPLETE REQUEST -->
+                                    <form
+                                        method="post"
+                                        action="{% url 'complete_blood_request' request.id %}"
+                                    >
+
+                                        {% csrf_token %}
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-primary w-100"
+                                        >
+
+                                            <i class="bi bi-check-circle-fill me-1"></i>
+
+                                            Mark as Completed
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- COMPLETED MESSAGE -->
+                            {% if request.status == 'COMPLETED' %}
+
+                                <div class="alert alert-primary">
+
+                                    <i class="bi bi-check-circle-fill me-1"></i>
+
+                                    <strong>
+                                        Blood request completed successfully.
+                                    </strong>
+
+                                    {% if request.accepted_by %}
+
+                                        <hr>
+
+                                        <p class="mb-1">
+                                            <strong>
+                                                Volunteer:
+                                            </strong>
+
+                                            {% if request.accepted_by.user.get_full_name %}
+
+                                                {{ request.accepted_by.user.get_full_name }}
+
+                                            {% else %}
+
+                                                {{ request.accepted_by.user.username }}
+
+                                            {% endif %}
+
+                                        </p>
+
+                                        <p class="mb-0">
+                                            <strong>
+                                                Contact:
+                                            </strong>
+
+                                            {{ request.accepted_by.contact_number }}
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- CANCELLED MESSAGE -->
+                            {% if request.status == 'CANCELLED' %}
+
+                                <div class="alert alert-secondary">
+
+                                    <i class="bi bi-x-circle-fill me-1"></i>
+
+                                    <strong>
+                                        This blood request has been cancelled.
+                                    </strong>
+
+                                    <p class="mb-0 mt-2">
+                                        No volunteer action is required for this request.
+                                    </p>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- Created Date -->
+                            <p class="text-muted small mb-0">
+
+                                Created:
+                                {{ request.created_at }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <!-- No Requests -->
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center p-5">
+
+                <i class="bi bi-droplet text-danger fs-1"></i>
+
+                <h3 class="fw-bold mt-3">
+                    No Blood Requests Yet
+                </h3>
+
+                <p class="text-muted">
+                    You have not submitted any blood requests.
+                </p>
+
+                <a
+                    href="{% url 'create_blood_request' %}"
+                    class="btn btn-danger"
+                >
+                    Create Blood Request
+                </a>
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
